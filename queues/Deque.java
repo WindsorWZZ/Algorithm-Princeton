@@ -4,29 +4,24 @@
  *  Description:
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
-    private class Node<Item> {
-        public Item value;
-        public Node<Item> last;
-        public Node<Item> next;
-
-        public Node(Item v) {
-            value = v;
-            last = null;
-            next = null;
-        }
-    }
-
-    private Node<Item> head;
-    private Node<Item> tail;
+    private Node<Item> head = null;
+    private Node<Item> tail = null;
     private int size = 0;
 
     // construct an empty deque
     public Deque() {
 
     }
+
+    public Node<Item> getHead() { return head; }
+
+    public Node<Item> getTail() { return tail; }
 
     // is the deque empty?
     public boolean isEmpty() {
@@ -50,6 +45,8 @@ public class Deque<Item> implements Iterable<Item> {
             head = node;
         }
         size++;
+
+        printQueue();
     }
 
     // add the item to the back
@@ -64,6 +61,8 @@ public class Deque<Item> implements Iterable<Item> {
             tail = node;
         }
         size++;
+
+        printQueue();
     }
 
     // remove and return the item from the front
@@ -80,6 +79,8 @@ public class Deque<Item> implements Iterable<Item> {
             head.last = null;
         }
         size--;
+
+        printQueue();
         return val;
     }
 
@@ -97,17 +98,73 @@ public class Deque<Item> implements Iterable<Item> {
             tail.next = null;
         }
         size--;
+
+        printQueue();
         return val;
+    }
+
+    public void printQueue() {
+        Node<Item> p = head;
+        while (p != null) {
+            StdOut.print(p.value);
+            StdOut.print(" ");
+            p = p.next;
+        }
+        StdOut.printf("%d\n", size);
     }
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
-
+        return new DequeIterator(this);
     }
 
     // unit testing (required)
     public static void main(String[] args) {
+        Deque<String> deque = new Deque<>();
 
+        deque.addFirst("tom");
+        deque.addLast("bob");
+
+        Iterator<String> it = deque.iterator();
+        while (it.hasNext()) {
+            StdOut.print(it.next());
+            StdOut.print("");
+        }
+        StdOut.print("\n");
+
+        deque.addFirst("Mary");
+        StdOut.println(deque.removeLast());
+        StdOut.println(deque.removeLast());
+    }
+}
+
+class DequeIterator<Item> implements Iterator<Item> {
+    private Node<Item> curNode;
+
+    public DequeIterator(Deque<Item> deque) {
+        curNode = deque.getHead();
+    }
+
+    public boolean hasNext() {
+        return curNode != null;
+    }
+
+    public Item next() {
+        Item val = curNode.value;
+        curNode = curNode.next;
+        return val;
+    }
+}
+
+class Node<Item> {
+    public Item value;
+    public Node<Item> last;
+    public Node<Item> next;
+
+    public Node(Item v) {
+        value = v;
+        last = null;
+        next = null;
     }
 
 }
