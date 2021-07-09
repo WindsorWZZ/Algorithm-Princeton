@@ -42,8 +42,8 @@ public class Deque<Item> implements Iterable<Item> {
             tail = head;
         } else {
             Node<Item> node = new Node<>(item);
-            head.last = node;
-            node.next = head;
+            head.setLast(node);
+            node.setNext(head);
             head = node;
         }
         size++;
@@ -59,8 +59,8 @@ public class Deque<Item> implements Iterable<Item> {
             head = tail;
         } else {
             Node<Item> node = new Node<>(item);
-            tail.next = node;
-            node.last = tail;
+            tail.setNext(node);
+            node.setLast(tail);
             tail = node;
         }
         size++;
@@ -71,13 +71,13 @@ public class Deque<Item> implements Iterable<Item> {
         if (size == 0) {
             throw new java.util.NoSuchElementException("");
         }
-        Item val = head.value;
+        Item val = head.getValue();
         if (size == 1) {
             head = null;
             tail = null;
         } else {
-            head = head.next;
-            head.last = null;
+            head = head.getNext();
+            head.setLast(null);
         }
         size--;
         return val;
@@ -88,13 +88,13 @@ public class Deque<Item> implements Iterable<Item> {
         if (size == 0) {
             throw new java.util.NoSuchElementException("");
         }
-        Item val = head.value;
+        Item val = head.getValue();
         if (size == 1) {
             head = null;
             tail = null;
         } else {
-            tail = tail.last;
-            tail.next = null;
+            tail = tail.getLast();
+            tail.setNext(null);
         }
         size--;
         return val;
@@ -102,7 +102,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
-        return new DequeIterator(this);
+        return new DequeIterator<Item>(this);
     }
 
     // unit testing (required)
@@ -140,21 +140,45 @@ class DequeIterator<Item> implements Iterator<Item> {
         if (curNode == null) {
             throw new java.util.NoSuchElementException();
         }
-        Item val = curNode.value;
-        curNode = curNode.next;
+        Item val = curNode.getValue();
+        curNode = curNode.getNext();
         return val;
     }
 }
 
 class Node<Item> {
-    public Item value;
-    public Node<Item> last;
-    public Node<Item> next;
+    private Item value;
+    private Node<Item> last;
+    private Node<Item> next;
 
     public Node(Item v) {
-        value = v;
-        last = null;
-        next = null;
+        setValue(v);
+        setLast(null);
+        setNext(null);
     }
 
+
+    public Item getValue() {
+        return value;
+    }
+
+    public void setValue(Item value) {
+        this.value = value;
+    }
+
+    public Node<Item> getLast() {
+        return last;
+    }
+
+    public void setLast(Node<Item> last) {
+        this.last = last;
+    }
+
+    public Node<Item> getNext() {
+        return next;
+    }
+
+    public void setNext(Node<Item> next) {
+        this.next = next;
+    }
 }

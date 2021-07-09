@@ -58,7 +58,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
-        return new RandomIterator(buffer, size);
+        return new RandomIterator<Item>(buffer, size);
     }
 
     private void resize(int newSize) {
@@ -70,11 +70,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void expand() {
-        resize(size * 2);
+        resize(buffer.length * 2);
     }
 
     private void shrink() {
-        resize(size / 2);
+        resize(buffer.length / 2);
     }
 
     // unit testing (required)
@@ -103,8 +103,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 }
 
 class RandomIterator<Item> implements Iterator<Item> {
-    Item[] buffer;
-    int size = 0;
+    private Item[] buffer;
+    private int size;
 
     RandomIterator(Item[] srcBuffer, int srcSize) {
         size = srcSize;

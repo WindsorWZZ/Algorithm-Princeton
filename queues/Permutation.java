@@ -1,4 +1,3 @@
-import edu.princeton.cs.algs4.StdArrayIO;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
@@ -11,24 +10,12 @@ public class Permutation {
             size = Integer.parseInt(args[0]);
         }
         RandomizedQueue<String> randQueue = new RandomizedQueue<>();
-        while (StdIn.hasNextLine()) {
-            String str = "";
-            try {
-                str = StdIn.readString();
-            } catch (Exception e) {
-
-            }
-            if (str.equals("")) {
-                break;
-            }
-            if (randQueue.size() == size) {
-                randQueue.dequeue();
-            }
+        while (StdIn.isEmpty()) {
+            String str = StdIn.readString();
             randQueue.enqueue(str);
         }
-        Iterator<String> itor = randQueue.iterator();
-        while (itor.hasNext()) {
-            StdOut.println(itor.next());
+        for (int i = 0; i < size; ++i) {
+            StdOut.println();
         }
     }
 }
