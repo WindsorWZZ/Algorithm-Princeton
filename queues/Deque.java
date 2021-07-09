@@ -4,7 +4,6 @@
  *  Description:
  **************************************************************************** */
 
-import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Iterator;
@@ -35,6 +34,9 @@ public class Deque<Item> implements Iterable<Item> {
 
     // add the item to the front
     public void addFirst(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException();
+        }
         if (head == null) {
             head = new Node<>(item);
             tail = head;
@@ -45,12 +47,13 @@ public class Deque<Item> implements Iterable<Item> {
             head = node;
         }
         size++;
-
-        printQueue();
     }
 
     // add the item to the back
     public void addLast(Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException();
+        }
         if (tail == null) {
             tail = new Node<>(item);
             head = tail;
@@ -61,8 +64,6 @@ public class Deque<Item> implements Iterable<Item> {
             tail = node;
         }
         size++;
-
-        printQueue();
     }
 
     // remove and return the item from the front
@@ -79,8 +80,6 @@ public class Deque<Item> implements Iterable<Item> {
             head.last = null;
         }
         size--;
-
-        printQueue();
         return val;
     }
 
@@ -98,19 +97,7 @@ public class Deque<Item> implements Iterable<Item> {
             tail.next = null;
         }
         size--;
-
-        printQueue();
         return val;
-    }
-
-    public void printQueue() {
-        Node<Item> p = head;
-        while (p != null) {
-            StdOut.print(p.value);
-            StdOut.print(" ");
-            p = p.next;
-        }
-        StdOut.printf("%d\n", size);
     }
 
     // return an iterator over items in order from front to back
@@ -150,6 +137,9 @@ class DequeIterator<Item> implements Iterator<Item> {
     }
 
     public Item next() {
+        if (curNode == null) {
+            throw new java.util.NoSuchElementException();
+        }
         Item val = curNode.value;
         curNode = curNode.next;
         return val;
