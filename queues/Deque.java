@@ -18,10 +18,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     }
 
-    public Node<Item> getHead() { return head; }
-
-    public Node<Item> getTail() { return tail; }
-
+    private Node<Item> getHead() { return head; }
+    
     // is the deque empty?
     public boolean isEmpty() {
         return size == 0;
@@ -102,9 +100,66 @@ public class Deque<Item> implements Iterable<Item> {
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
-        return new DequeIterator<Item>(this);
+        return new DequeIterator<Item>(this.getHead());
+    }
+    
+    private class DequeIterator<Item> implements Iterator<Item> {
+        private Node<Item> curNode;
+
+        public DequeIterator(Node<Item> head) {
+            curNode = head;
+        }
+
+        public boolean hasNext() {
+            return curNode != null;
+        }
+
+        public Item next() {
+            if (curNode == null) {
+                throw new java.util.NoSuchElementException();
+            }
+            Item val = curNode.getValue();
+            curNode = curNode.getNext();
+            return val;
+        }
     }
 
+    private class Node<Item> {
+        private Item value;
+        private Node<Item> last;
+        private Node<Item> next;
+
+        public Node(Item v) {
+            setValue(v);
+            setLast(null);
+            setNext(null);
+        }
+
+        public Item getValue() {
+            return value;
+        }
+
+        public void setValue(Item value) {
+            this.value = value;
+        }
+
+        public Node<Item> getLast() {
+            return last;
+        }
+
+        public void setLast(Node<Item> last) {
+            this.last = last;
+        }
+
+        public Node<Item> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<Item> next) {
+            this.next = next;
+        }
+    }
+    
     // unit testing (required)
     public static void main(String[] args) {
         Deque<String> deque = new Deque<>();
@@ -125,60 +180,4 @@ public class Deque<Item> implements Iterable<Item> {
     }
 }
 
-class DequeIterator<Item> implements Iterator<Item> {
-    private Node<Item> curNode;
 
-    public DequeIterator(Deque<Item> deque) {
-        curNode = deque.getHead();
-    }
-
-    public boolean hasNext() {
-        return curNode != null;
-    }
-
-    public Item next() {
-        if (curNode == null) {
-            throw new java.util.NoSuchElementException();
-        }
-        Item val = curNode.getValue();
-        curNode = curNode.getNext();
-        return val;
-    }
-}
-
-class Node<Item> {
-    private Item value;
-    private Node<Item> last;
-    private Node<Item> next;
-
-    public Node(Item v) {
-        setValue(v);
-        setLast(null);
-        setNext(null);
-    }
-
-
-    public Item getValue() {
-        return value;
-    }
-
-    public void setValue(Item value) {
-        this.value = value;
-    }
-
-    public Node<Item> getLast() {
-        return last;
-    }
-
-    public void setLast(Node<Item> last) {
-        this.last = last;
-    }
-
-    public Node<Item> getNext() {
-        return next;
-    }
-
-    public void setNext(Node<Item> next) {
-        this.next = next;
-    }
-}

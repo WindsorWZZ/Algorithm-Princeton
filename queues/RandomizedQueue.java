@@ -41,6 +41,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         int index = StdRandom.uniform(0, size);
         Item res = buffer[index];
         buffer[index] = buffer[--size];
+        buffer[size] = null;
         if (size < buffer.length / 2) {
             shrink();
         }
@@ -77,6 +78,34 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         resize(buffer.length / 2);
     }
 
+
+    class RandomIterator<Item> implements Iterator<Item> {
+        private Item[] buffer;
+        private int size;
+
+        RandomIterator(Item[] srcBuffer, int srcSize) {
+            size = srcSize;
+            buffer = (Item[]) new Object[size];
+            for (int i = 0; i < size; ++i) {
+                buffer[i] = srcBuffer[i];
+            }
+        }
+
+        public boolean hasNext() {
+            return size > 0;
+        }
+
+        public Item next() {
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException();
+            }
+            int index = StdRandom.uniform(0, size);
+            Item res = buffer[index];
+            buffer[index] = buffer[--size];
+            return res;
+        }
+    }
+
     // unit testing (required)
     public static void main(String[] args) {
         RandomizedQueue<String> queue = new RandomizedQueue<>();
@@ -102,29 +131,3 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 }
 
-class RandomIterator<Item> implements Iterator<Item> {
-    private Item[] buffer;
-    private int size;
-
-    RandomIterator(Item[] srcBuffer, int srcSize) {
-        size = srcSize;
-        buffer = (Item[]) new Object[srcBuffer.length];
-        for (int i = 0; i < size; ++i) {
-            buffer[i] = srcBuffer[i];
-        }
-    }
-
-    public boolean hasNext() {
-        return size > 0;
-    }
-
-    public Item next() {
-        if (!hasNext()) {
-            throw new java.util.NoSuchElementException();
-        }
-        int index = StdRandom.uniform(0, size);
-        Item res = buffer[index];
-        buffer[index] = buffer[--size];
-        return res;
-    }
-}
