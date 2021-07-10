@@ -79,7 +79,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
 
-    class RandomIterator<Item> implements Iterator<Item> {
+    private class RandomIterator<Item> implements Iterator<Item> {
         private Item[] buffer;
         private int size;
 
