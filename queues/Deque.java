@@ -86,7 +86,7 @@ public class Deque<Item> implements Iterable<Item> {
         if (size == 0) {
             throw new java.util.NoSuchElementException("");
         }
-        Item val = head.getValue();
+        Item val = tail.getValue();
         if (size == 1) {
             head = null;
             tail = null;

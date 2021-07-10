@@ -78,7 +78,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         resize(buffer.length / 2);
     }
 
-
     private class RandomIterator<Item> implements Iterator<Item> {
         private Item[] buffer;
         private int size;
